@@ -34,15 +34,15 @@ export default {
   data() {
     return {
       filter_flags: this.$store.state.filter_flags,
-      active_filter: this.$store.state.active_filter,
+      active_filter: this.$store.state.active_filter
     };
   },
   methods: {
     flagFilter(selected_flag) {
       this.FLAG_FILTER(selected_flag);
     },
-    ...mapActions(["FLAG_FILTER"]),
-  },
+    ...mapActions(["FLAG_FILTER"])
+  }
 };
 </script>
 

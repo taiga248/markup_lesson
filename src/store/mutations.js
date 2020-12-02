@@ -8,9 +8,9 @@ const flagFilter = (state, selected_flag) => {
   console.log(selected_flag);
   let filtering_array = null;
   if (selected_flag === "完了") {
-    filtering_array = state.tasks.filter((task) => task.flag === "完了");
+    filtering_array = state.tasks.filter(task => task.flag === "完了");
   } else if (selected_flag === "完了以外") {
-    filtering_array = state.tasks.filter((task) => task.flag !== "完了");
+    filtering_array = state.tasks.filter(task => task.flag !== "完了");
   } else {
     console.log("すべて");
   }
@@ -36,8 +36,8 @@ const moveDownTask = (state, down_index) => {
 const deleteTask = (state, delete_index) => {
   state.tasks.splice(delete_index, 1);
 };
-const selectDeleteTask = (state) => {
-  const deleted_array = state.tasks.filter((task) => task.check === false);
+const selectDeleteTask = state => {
+  const deleted_array = state.tasks.filter(task => task.check === false);
   state.tasks = deleted_array;
 };
 
@@ -48,5 +48,5 @@ export default {
   moveUpTask,
   moveDownTask,
   deleteTask,
-  selectDeleteTask,
+  selectDeleteTask
 };
