@@ -4,8 +4,8 @@ const ADD_TASK = ({ commit }, data) => {
 const CHANGE_FLAG = ({ commit }, change_info) => {
   commit("changeFlag", change_info);
 };
-const FLAG_FILTER = ({ commit }, active_flag) => {
-  commit("flagFilter", active_flag);
+const FLAG_FILTER = ({ commit }, selected_flag) => {
+  commit("flagFilter", selected_flag);
 };
 const MOVE_UP_TASK = ({ commit }, up_index) => {
   commit("moveUpTask", up_index);

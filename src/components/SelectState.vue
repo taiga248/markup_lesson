@@ -2,25 +2,27 @@
   <section>
     <ul class="nav">
       <li
-        v-for="(filter_content, i) in filter_contents"
+        v-for="(filter_flag, i) in filter_flags"
         class="nav__item"
         :key="i"
-        @click="flagFilter(filter_content)"
+        @click="flagFilter(filter_flag)"
       >
         <button
-          v-if="filter_content === active_filter"
+          v-if="filter_flag === active_filter"
           class="nav__item__btn nav__item__btn--active"
         >
-          {{ filter_content }}
+          {{ filter_flag }}
         </button>
         <button v-else class="nav__item__btn">
-          {{ filter_content }}
+          {{ filter_flag }}
         </button>
       </li>
+      <li>TODO:このままだと一回のfilterで消えちゃう</li>
     </ul>
 
     <div class="search-user">
       <input type="text" class="user-input" placeholder="担当者名で絞り込み" />
+      TODO:
     </div>
   </section>
 </template>
@@ -31,16 +33,16 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      filter_contents: this.$store.state.filter_contents,
-      active_filter: this.$store.state.active_filter
+      filter_flags: this.$store.state.filter_flags,
+      active_filter: this.$store.state.active_filter,
     };
   },
   methods: {
-    flagFilter(active_flag) {
-      this.FLAG_FILTER(active_flag);
+    flagFilter(selected_flag) {
+      this.FLAG_FILTER(selected_flag);
     },
-    ...mapActions(["FLAG_FILTER"])
-  }
+    ...mapActions(["FLAG_FILTER"]),
+  },
 };
 </script>
 

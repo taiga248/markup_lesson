@@ -25,12 +25,12 @@ const tasks = [
     flag: task_flags[1]
   }
 ];
-const filter_contents = ["すべて", "完了", "完了以外"];
-const active_filter = filter_contents[0];
+const filter_flags = ["すべて", "完了", "完了以外"];
+const active_filter = filter_flags[0];
 
 export default {
   tasks,
   task_flags,
-  filter_contents,
+  filter_flags,
   active_filter
 };

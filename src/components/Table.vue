@@ -65,6 +65,7 @@
       <pre>{{ this.$store.state.tasks }}</pre>
       <pre>選択項目：{{ this.$store.state.active_filter }}</pre>
     </div>
+    <!--  -->
   </section>
 </template>
 
@@ -81,35 +82,28 @@ export default {
       delete_indexs: []
     };
   },
-  // watch: {
-  //   active_filter() {
-  //     this.$nextTick(() => {
-  //       console.log("変更されました");
-  //     });
-  //   },
+  // computed: {
+  //   task_filter() {
+  //     let done_task;
+  //     let not_completed_task;
+
+  //     switch (this.active_filter) {
+  //       case this.filter_contents[1]: // 完了
+  //         console.log(this.filter_contents[1]);
+
+  //         done_task = this.tasks.filter(task => task.flag === "完了");
+  //         return done_task;
+  //       case this.filter_contents[2]: // 完了以外
+  //         console.log(this.filter_contents[2]);
+  //         not_completed_task = this.tasks.filter(
+  //           task => task.flag === "完了以外"
+  //         );
+  //         return not_completed_task;
+  //       default:
+  //         return this.tasks;
+  //     }
+  //   }
   // },
-  computed: {
-    task_filter() {
-      let done_task;
-      let not_completed_task;
-
-      switch (this.active_filter) {
-        case this.filter_contents[1]: // 完了
-          console.log(this.filter_contents[1]);
-
-          done_task = this.tasks.filter(task => task.flag === "完了");
-          return done_task;
-        case this.filter_contents[2]: // 完了以外
-          console.log(this.filter_contents[2]);
-          not_completed_task = this.tasks.filter(
-            task => task.flag === "完了以外"
-          );
-          return not_completed_task;
-        default:
-          return this.tasks;
-      }
-    }
-  },
   methods: {
     changeFlag(i, j) {
       const change_info = {
@@ -131,7 +125,6 @@ export default {
     },
     selectDeleteTask() {
       this.SELECT_DELETE_TASK();
-      // this.tasks.map((task) => (task.check = false));
     },
     ...mapActions([
       "CHANGE_FLAG",

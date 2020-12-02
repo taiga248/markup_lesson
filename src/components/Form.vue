@@ -86,7 +86,6 @@ export default {
         user: this.user,
         flag: this.flag
       };
-      console.log(data);
       this.ADD_TASK(data);
       this.formInit();
     },
