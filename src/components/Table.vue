@@ -62,8 +62,10 @@
     </div>
     <!-- debug -->
     <div style="display: flex">
-      <pre>{{ this.$store.state.tasks }}</pre>
-      <pre>選択項目：{{ this.$store.state.active_filter }}</pre>
+      <pre> - すべて :   {{ this.$store.state.tasks }}</pre>
+      <pre> - 完了  :  {{ this.$store.state.Done }}</pre>
+      <pre> - 完了以外  :  {{ this.$store.state.OtherThanCompletion }}</pre>
+      <pre> - 選択フィルタ  :  {{ this.$store.state.active_filter }}</pre>
     </div>
     <!--  -->
   </section>
@@ -82,28 +84,6 @@ export default {
       delete_indexs: []
     };
   },
-  // computed: {
-  //   task_filter() {
-  //     let done_task;
-  //     let not_completed_task;
-
-  //     switch (this.active_filter) {
-  //       case this.filter_contents[1]: // 完了
-  //         console.log(this.filter_contents[1]);
-
-  //         done_task = this.tasks.filter(task => task.flag === "完了");
-  //         return done_task;
-  //       case this.filter_contents[2]: // 完了以外
-  //         console.log(this.filter_contents[2]);
-  //         not_completed_task = this.tasks.filter(
-  //           task => task.flag === "完了以外"
-  //         );
-  //         return not_completed_task;
-  //       default:
-  //         return this.tasks;
-  //     }
-  //   }
-  // },
   methods: {
     changeFlag(i, j) {
       const change_info = {

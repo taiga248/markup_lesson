@@ -28,9 +28,14 @@ const tasks = [
 const filter_flags = ["すべて", "完了", "完了以外"];
 const active_filter = filter_flags[0];
 
+const Done = [];
+const OtherThanCompletion = [];
+
 export default {
   tasks,
   task_flags,
   filter_flags,
-  active_filter
+  active_filter,
+  Done,
+  OtherThanCompletion
 };

@@ -5,17 +5,25 @@ const changeFlag = (state, change_info) => {
   state.tasks[change_info.task_id].flag = state.task_flags[change_info.flag_id];
 };
 const flagFilter = (state, selected_flag) => {
-  console.log(selected_flag);
   let filtering_array = null;
-  if (selected_flag === "完了") {
-    filtering_array = state.tasks.filter(task => task.flag === "完了");
-  } else if (selected_flag === "完了以外") {
-    filtering_array = state.tasks.filter(task => task.flag !== "完了");
-  } else {
-    console.log("すべて");
+  switch (selected_flag) {
+    case state.filter_flags[1]: // 完了
+      filtering_array = state.tasks.filter(task => task.flag === "完了");
+      state.Done = filtering_array;
+      state.OtherThanCompletion = [];
+      state.active_filter = state.filter_flags[1];
+      break;
+    case state.filter_flags[2]: // 完了以外
+      filtering_array = state.tasks.filter(task => task.flag !== "完了");
+      state.OtherThanCompletion = filtering_array;
+      state.Done = [];
+      state.active_filter = state.filter_flags[2];
+      break;
+    default:
+      // すべて
+      state.active_filter = state.filter_flags[0];
+      break;
   }
-
-  state.tasks = filtering_array;
 };
 const moveUpTask = (state, up_index) => {
   state.tasks.splice(

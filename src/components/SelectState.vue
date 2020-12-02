@@ -1,5 +1,6 @@
 <template>
   <section>
+    {{ this.$store.state.active_filter }}
     <ul class="nav">
       <li
         v-for="(filter_flag, i) in filter_flags"
@@ -17,7 +18,7 @@
           {{ filter_flag }}
         </button>
       </li>
-      <li>TODO:このままだと一回のfilterで消えちゃう</li>
+      <li>TODO:</li>
     </ul>
 
     <div class="search-user">
@@ -36,6 +37,14 @@ export default {
       filter_flags: this.$store.state.filter_flags,
       active_filter: this.$store.state.active_filter
     };
+  },
+  created() {
+    console.log("created");
+    this.active_filter = this.$store.state.active_filter;
+  },
+  beforeUpdate() {
+    console.log("beforeUpdate");
+    this.active_filter = this.$store.state.active_filter;
   },
   methods: {
     flagFilter(selected_flag) {
