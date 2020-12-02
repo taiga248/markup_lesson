@@ -74,7 +74,7 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      // tasks: this.$store.state.tasks,
+      tasks: this.$store.state.tasks,
       task_flags: this.$store.state.task_flags,
       filter_contents: this.$store.state.filter_contents,
       active_filter: this.$store.state.active_filter,
@@ -92,7 +92,6 @@ export default {
     task_filter() {
       let done_task;
       let not_completed_task;
-      // console.log("filter");
 
       switch (this.active_filter) {
         case this.filter_contents[1]: // 完了
@@ -107,7 +106,6 @@ export default {
           );
           return not_completed_task;
         default:
-          // console.log("デフォ");
           return this.tasks;
       }
     }
