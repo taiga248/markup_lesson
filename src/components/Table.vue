@@ -1,5 +1,31 @@
 <template>
   <section>
+    <div>
+      <ul class="nav">
+        <li v-for="(filter_flag, i) in filter_flags" class="nav__item" :key="i">
+          <button
+            v-if="filter_flag === activeFilter"
+            class="nav__item__btn nav__item__btn--active"
+            @click="flagFilter(filter_flag)"
+          >
+            {{ filter_flag }}
+          </button>
+          <button
+            v-else
+            class="nav__item__btn"
+            @click="flagFilter(filter_flag)"
+          >
+            {{ filter_flag }}
+          </button>
+        </li>
+      </ul>
+      <input
+        type="text"
+        class="user-input"
+        v-model="userName"
+        placeholder="担当者名で絞り込み"
+      />
+    </div>
     <table>
       <thead>
         <tr>
@@ -12,7 +38,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(task, i) in this.$store.state.tasks" :key="i">
+        <tr v-for="(task, i) in taskRef" :key="i">
           <td>
             <input type="checkbox" v-model="task.check" />
           </td>
@@ -36,15 +62,23 @@
             </div>
           </td>
           <td>
-            <button class="delete-btn" type="button" @click="deleteTask(i)">
+            <button
+              class="delete-btn"
+              type="button"
+              @click="deleteTask(task.id)"
+            >
               <font-awesome-icon :icon="['far', 'trash-alt']" />
             </button>
           </td>
           <td>
-            <button class="arrow" type="button" @click="moveUpTask(i)">
+            <button class="arrow" type="button" @click="moveUpTask(i, taskRef)">
               <font-awesome-icon icon="arrow-alt-circle-up" />
             </button>
-            <button class="arrow" type="button" @click="moveDownTask(i)">
+            <button
+              class="arrow"
+              type="button"
+              @click="moveDownTask(i, taskRef)"
+            >
               <font-awesome-icon icon="arrow-alt-circle-down" />
             </button>
           </td>
@@ -61,30 +95,52 @@
       </button>
     </div>
     <!-- debug -->
-    <div style="display: flex">
+    <!-- <div style="display: flex">
       <pre> - すべて :   {{ this.$store.state.tasks }}</pre>
-      <pre> - 完了  :  {{ this.$store.state.Done }}</pre>
-      <pre> - 完了以外  :  {{ this.$store.state.OtherThanCompletion }}</pre>
-      <pre> - 選択フィルタ  :  {{ this.$store.state.active_filter }}</pre>
-    </div>
+      <pre> - 完了  :  {{ Done }}</pre>
+      <pre> - 完了以外  :  {{ OtherThanCompletion }}</pre>
+      <pre> - 選択フィルタ  :  {{ activeFilter }}</pre>
+    </div> -->
     <!--  -->
   </section>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
     return {
       tasks: this.$store.state.tasks,
       task_flags: this.$store.state.task_flags,
-      filter_contents: this.$store.state.filter_contents,
-      active_filter: this.$store.state.active_filter,
-      delete_indexs: []
+      filter_flags: this.$store.state.filter_flags,
+      userName: ""
     };
   },
+  computed: {
+    taskRef() {
+      switch (this.$store.getters.activeFilter) {
+        case this.filter_flags[0]: // すべて
+          return this.$store.getters.AllTasks;
+        case this.filter_flags[1]: // 完了
+          return this.$store.getters.Done;
+        case this.filter_flags[2]: // 完了以外
+          return this.$store.getters.OtherThanCompletion;
+        default:
+          return this.$store.getters.AllTasks;
+      }
+    },
+    // TODO: ユーザー絞り込み
+    filterUserName(task) {
+      return task.filter(value => value.match(this.userName));
+    },
+    ...mapGetters(["AllTasks", "Done", "OtherThanCompletion", "activeFilter"])
+  },
   methods: {
+    // TODO: ユーザー絞り込み
+    // filterUserName(task) {
+    //   return task.filter((value) => value.match(this.userName));
+    // },
     changeFlag(i, j) {
       const change_info = {
         task_id: i,
@@ -92,32 +148,66 @@ export default {
       };
       this.CHANGE_FLAG(change_info);
     },
-    moveUpTask(i) {
-      if (i === 0) return;
+    moveUpTask(i, tasks) {
+      if (tasks[i] === tasks[0]) return; // それぞれのタスクの先頭の時動かさない
       this.MOVE_UP_TASK(i);
     },
-    moveDownTask(i) {
-      if (i === this.tasks.length - 1) return;
+    moveDownTask(i, tasks) {
+      if (i === tasks.length - 1) return;
       this.MOVE_DOWN_TASK(i);
     },
-    deleteTask(i) {
-      this.DELETE_TASK(i);
+    deleteTask(id) {
+      this.DELETE_TASK(id);
     },
     selectDeleteTask() {
       this.SELECT_DELETE_TASK();
     },
+    flagFilter(selected_flag) {
+      this.FLAG_FILTER(selected_flag);
+    },
+
     ...mapActions([
       "CHANGE_FLAG",
       "MOVE_UP_TASK",
       "MOVE_DOWN_TASK",
       "DELETE_TASK",
-      "SELECT_DELETE_TASK"
+      "SELECT_DELETE_TASK",
+      "FLAG_FILTER"
     ])
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.nav {
+  display: flex;
+  &__item {
+    margin: 0 8px;
+    &__btn {
+      padding: 8px 16px;
+      color: rgb(10, 132, 255);
+      background-color: #fff;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      &--active {
+        color: #333;
+      }
+    }
+  }
+}
+
+.user-input {
+  display: inline-block;
+  margin: 4px;
+  padding: 8px 16px;
+  color: #555;
+  outline: none;
+  border: solid 1px #ccc;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
 table {
   width: 100%;
   margin: 16px 0;

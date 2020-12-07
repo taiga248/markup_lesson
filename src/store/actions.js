@@ -13,8 +13,8 @@ const MOVE_UP_TASK = ({ commit }, up_index) => {
 const MOVE_DOWN_TASK = ({ commit }, down_index) => {
   commit("moveDownTask", down_index);
 };
-const DELETE_TASK = ({ commit }, delete_index) => {
-  commit("deleteTask", delete_index);
+const DELETE_TASK = ({ commit }, id) => {
+  commit("deleteTask", id);
 };
 const SELECT_DELETE_TASK = ({ commit }) => {
   commit("selectDeleteTask");

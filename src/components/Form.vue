@@ -65,11 +65,12 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
+      tasks: this.$store.state.tasks,
       task_flags: this.$store.state.task_flags,
       isAccordion: true,
       title: null,
       user: null,
-      flag: "未対応"
+      flag: this.$store.state.task_flags[0]
     };
   },
   methods: {
@@ -80,7 +81,15 @@ export default {
       this.flag = task_flag;
     },
     postData() {
+      let ids = [];
+      for (let i = 0; i < this.tasks.length; i++) {
+        ids.push(this.tasks[i].id);
+      }
+      const maxId = Math.max.apply(null, ids);
+      const newId = maxId + 1;
+
       const data = {
+        id: newId,
         check: false,
         title: this.title,
         user: this.user,
